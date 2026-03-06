@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ─ shadcn 토큰 (임대톡 커스텀) ─────────────────── */
+    --background: 240 20% 98%;
+    --foreground: 240 10% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
+
+    /* Primary: 인디고 보라 #5B5EF4 */
+    --primary: 239 88% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 10% 94%;
+    --secondary-foreground: 240 10% 10%;
+
+    --muted: 240 10% 94%;
+    --muted-foreground: 240 5% 55%;
+
+    /* Accent: 임대톡 서브 컬러 */
+    --accent: 239 88% 96%;
+    --accent-foreground: 239 88% 40%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 10% 90%;
+    --input: 240 10% 90%;
+    --ring: 239 88% 65%;
+
+    --radius: 1rem;
+
+    /* ─ 임대톡 전용 토큰 ─────────────────────────────── */
+    /* 예상 차익 강조색: 딥 오렌지 */
+    --profit: 16 100% 56%;
+    --profit-foreground: 0 0% 100%;
+    --profit-subtle: 16 100% 96%;
+
+    /* 카카오 노랑 */
+    --kakao: 48 100% 50%;
+    /* 네이버 초록 */
+    --naver: 135 100% 40%;
+
+    /* 배경 서피스 */
+    --surface: 240 20% 97%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-[hsl(var(--surface))] text-foreground antialiased;
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* 모바일 스크롤 최적화 */
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  /* 임대톡 그라디언트 */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-indigo-500 to-violet-500;
+  }
+
+  .gradient-profit {
+    @apply bg-gradient-to-r from-orange-500 to-rose-500;
+  }
+
+  .gradient-card {
+    @apply bg-gradient-to-br from-white to-indigo-50/30;
+  }
+
+  /* 차익 강조 텍스트 (그라디언트 클리핑) */
+  .text-gradient-profit {
+    @apply bg-gradient-to-r from-orange-500 to-rose-500 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent;
+  }
+
+  /* 글래스모피즘 */
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-white/50;
+  }
+
+  /* 스크롤바 숨기기 (모바일 피드) */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* 카드 호버 효과 */
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98];
+  }
+
+  /* 모바일 안전 영역 */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+  }
+}
