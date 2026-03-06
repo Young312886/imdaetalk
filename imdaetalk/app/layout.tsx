@@ -35,10 +35,10 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body>
-        {/* 모바일 앱처럼 보이는 컨테이너 */}
+        {/* 모바일 앱처럼 보이는 컨테이너 (Cozy Fintech 배경톤) */}
         <div className="min-h-screen bg-[hsl(var(--surface))]">
-          {/* 모바일 중심 래퍼 */}
-          <div className="relative mx-auto max-w-md min-h-screen bg-white shadow-xl">
+          {/* 모바일 중심 래퍼 (Bento Box 특성을 살리기 위해 미세한 틴트 배경) */}
+          <div className="relative mx-auto max-w-md min-h-screen bg-slate-50 shadow-xl overflow-hidden">
             <GNB />
             <main className="pb-24">
               {children}

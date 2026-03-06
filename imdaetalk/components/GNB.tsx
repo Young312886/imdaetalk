@@ -1,55 +1,32 @@
 'use client'
 
 import Link from 'next/link'
+import { Bell, UserCircle2 } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import { Bell, User, Home } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 
 export function GNB() {
   const pathname = usePathname()
+  const isAuthPage = pathname?.startsWith('/auth')
 
-  // 특정 페이지에서는 GNB 숨김
-  const hideGNB = pathname.startsWith('/auth')
-  if (hideGNB) return null
+  if (isAuthPage) return null
 
   return (
-    <header className="sticky top-0 z-50 glass border-b border-white/50">
-      <div className="flex h-14 items-center justify-between px-4">
-        {/* 로고 */}
-        <Link href="/" className="flex items-center gap-1.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg gradient-primary">
-            <Home className="h-3.5 w-3.5 text-white" />
+    <header className="sticky top-0 z-50 w-full glass border-b border-slate-100/50">
+      <div className="flex h-14 items-center justify-between px-5">
+        <Link href="/" className="flex items-center gap-2 group">
+          {/* 앱 아이콘 느낌의 작은 로고 컨테이너 */}
+          <div className="w-7 h-7 bg-[#00D09E] rounded-[8px] flex items-center justify-center shadow-md shadow-[#00D09E]/20 group-active:scale-95 transition-transform">
+            <span className="text-white text-sm">🏠</span>
           </div>
-          <span className="text-lg font-bold tracking-tight text-gradient-primary">
-            임대톡
-          </span>
+          <span className="font-extrabold text-[18px] text-slate-800 tracking-tight">임대톡</span>
         </Link>
-
-        {/* 우측 액션 버튼 */}
-        <div className="flex items-center gap-1">
-          {/* 알림 버튼 */}
-          <Button
-            asChild
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 rounded-xl text-muted-foreground hover:text-foreground"
-          >
-            <Link href="/mypage?tab=alerts" aria-label="알림 설정">
-              <Bell className="h-5 w-5" />
-            </Link>
-          </Button>
-
-          {/* 마이페이지 / 로그인 버튼 */}
-          <Button
-            asChild
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 rounded-xl text-muted-foreground hover:text-foreground"
-          >
-            <Link href="/mypage" aria-label="마이페이지">
-              <User className="h-5 w-5" />
-            </Link>
-          </Button>
+        <div className="flex items-center gap-3">
+          <button className="text-slate-400 hover:text-[#00D09E] transition-colors p-1" aria-label="알림">
+            <Bell className="h-[22px] w-[22px]" />
+          </button>
+          <Link href="/mypage" className="text-slate-400 hover:text-[#00D09E] transition-colors p-1" aria-label="마이페이지">
+            <UserCircle2 className="h-6 w-6" />
+          </Link>
         </div>
       </div>
     </header>

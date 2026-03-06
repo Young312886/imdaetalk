@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
 @tailwind base;
 @tailwind components;
@@ -7,51 +7,52 @@
 @layer base {
   :root {
     /* ─ shadcn 토큰 (임대톡 커스텀) ─────────────────── */
-    --background: 240 20% 98%;
-    --foreground: 240 10% 10%;
+    /* 배경은 아주 연한 쿨그레이 / 오프 화이트 */
+    --background: 210 20% 98%; 
+    --foreground: 220 10% 15%;
 
+    /* 카드는 순백색 유지로 벤토 박스 뎁스감 확보 */
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 10%;
+    --card-foreground: 220 10% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 10%;
+    --popover-foreground: 220 10% 15%;
 
-    /* Primary: 인디고 보라 #5B5EF4 */
-    --primary: 239 88% 65%;
+    /* Primary: Growth Mint (#00D09E) = HSL 165, 100%, 41% */
+    --primary: 165 100% 41%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 10% 94%;
-    --secondary-foreground: 240 10% 10%;
+    --secondary: 210 20% 95%;
+    --secondary-foreground: 220 10% 15%;
 
-    --muted: 240 10% 94%;
-    --muted-foreground: 240 5% 55%;
+    --muted: 210 20% 95%;
+    --muted-foreground: 215 15% 55%;
 
-    /* Accent: 임대톡 서브 컬러 */
-    --accent: 239 88% 96%;
-    --accent-foreground: 239 88% 40%;
+    /* Accent: Mint 연한 배경 */
+    --accent: 165 50% 95%;
+    --accent-foreground: 165 100% 30%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 10% 90%;
-    --input: 240 10% 90%;
-    --ring: 239 88% 65%;
+    --border: 210 20% 90%;
+    --input: 210 20% 90%;
+    --ring: 165 100% 41%;
 
-    --radius: 1rem;
+    --radius: 1.5rem; /* 벤토 박스를 위해 라운딩 증대 (24px) */
 
     /* ─ 임대톡 전용 토큰 ─────────────────────────────── */
-    /* 예상 차익 강조색: 딥 오렌지 */
-    --profit: 16 100% 56%;
-    --profit-foreground: 0 0% 100%;
-    --profit-subtle: 16 100% 96%;
+    /* 보조 컬러: Coin Yellow (#FFD54F) = HSL 46, 100%, 65% */
+    --profit: 46 100% 65%;
+    --profit-foreground: 46 100% 25%;
+    --profit-subtle: 46 100% 95%;
 
-    /* 카카오 노랑 */
+    /* 카카오/네이버 */
     --kakao: 48 100% 50%;
-    /* 네이버 초록 */
     --naver: 135 100% 40%;
 
-    /* 배경 서피스 */
-    --surface: 240 20% 97%;
+    /* 기본 서피스 */
+    --surface: 210 20% 97%;
   }
 
   * {
@@ -60,10 +61,9 @@
 
   body {
     @apply bg-[hsl(var(--surface))] text-foreground antialiased;
-    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 
-  /* 모바일 스크롤 최적화 */
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
@@ -71,26 +71,29 @@
 }
 
 @layer utilities {
-  /* 임대톡 그라디언트 */
+  /* 그로스 민트 그라디언트 */
   .gradient-primary {
-    @apply bg-gradient-to-r from-indigo-500 to-violet-500;
+    @apply bg-gradient-to-r from-[#00D09E] to-[#00b388];
   }
 
+  /* 코인 옐로우 강조 */
   .gradient-profit {
-    @apply bg-gradient-to-r from-orange-500 to-rose-500;
+    @apply bg-gradient-to-r from-[#FFD54F] to-[#FFC107];
   }
 
-  .gradient-card {
-    @apply bg-gradient-to-br from-white to-indigo-50/30;
-  }
-
-  /* 차익 강조 텍스트 (그라디언트 클리핑) */
+  /* 수익 텍스트 강조 - 코인 옐로우 & 주황 믹스 */
   .text-gradient-profit {
-    @apply bg-gradient-to-r from-orange-500 to-rose-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#F59E0B] to-[#D97706] bg-clip-text text-transparent;
   }
 
+  /* 프라이머리 텍스트 강조 */
   .text-gradient-primary {
-    @apply bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#00D09E] to-[#00b388] bg-clip-text text-transparent;
+  }
+
+  /* 벤토 박스 (카드) 공통 스타일 - 부드러운 그림자와 둥근 모서리 */
+  .bento-box {
+    @apply rounded-[1.5rem] bg-white shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-black/[0.03];
   }
 
   /* 글래스모피즘 */
@@ -98,7 +101,7 @@
     @apply bg-white/80 backdrop-blur-md border border-white/50;
   }
 
-  /* 스크롤바 숨기기 (모바일 피드) */
+  /* 스크롤바 숨기기 */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -107,12 +110,11 @@
     scrollbar-width: none;
   }
 
-  /* 카드 호버 효과 */
+  /* 카드 호버 (핀테크 앱 특유의 쫀쫀한 느낌) */
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98];
+    @apply transition-all duration-300 hover:shadow-[0_8px_30px_-6px_rgba(0,0,0,0.08)] hover:-translate-y-1 active:scale-[0.98] active:translate-y-0 active:shadow-[0_4px_10px_-4px_rgba(0,0,0,0.05)];
   }
 
-  /* 모바일 안전 영역 */
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom, 1rem);
   }

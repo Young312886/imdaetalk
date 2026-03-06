@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { MapPin, CheckCircle2, XCircle, TrendingUp, Clock } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
 import { type Notice, formatMoney } from '@/data/dummyNotices'
 
 interface NoticeCardProps {
@@ -10,11 +9,11 @@ interface NoticeCardProps {
 }
 
 const TYPE_COLORS: Record<Notice['type'], string> = {
-  행복주택: 'bg-blue-100 text-blue-700',
-  국민임대: 'bg-green-100 text-green-700',
-  공공분양: 'bg-violet-100 text-violet-700',
-  장기전세: 'bg-amber-100 text-amber-700',
-  청년안심주택: 'bg-rose-100 text-rose-700',
+  행복주택: 'bg-emerald-50 text-emerald-600',
+  국민임대: 'bg-blue-50 text-blue-600',
+  공공분양: 'bg-purple-50 text-purple-600',
+  장기전세: 'bg-amber-50 text-amber-600',
+  청년안심주택: 'bg-rose-50 text-rose-600',
 }
 
 function getDaysBefore(dateStr: string): number {
@@ -28,104 +27,92 @@ export function NoticeCard({ notice }: NoticeCardProps) {
   const isUrgent = daysLeft >= 0 && daysLeft <= 7
 
   return (
-    <Link href={`/detail/${notice.id}`} className="block" aria-label={`${notice.title} 상세 보기`}>
-      <article className="mx-4 mb-3 rounded-2xl border border-border bg-white shadow-sm card-hover overflow-hidden">
+    <Link href={`/detail/${notice.id}`} className="block px-4 mb-5" aria-label={`${notice.title} 상세 보기`}>
+      <article className="bento-box card-hover overflow-hidden relative">
         {/* 긴급 마감 배너 */}
-        {isUrgent && daysLeft >= 0 && (
-          <div className="gradient-profit flex items-center gap-1.5 px-4 py-2">
-            <Clock className="h-3.5 w-3.5 text-white" />
-            <span className="text-xs font-semibold text-white">
-              마감 D-{daysLeft === 0 ? 'day' : daysLeft}
+        {isUrgent && (
+          <div className="bg-[#FFD54F] flex items-center gap-1.5 px-5 py-2.5">
+            <Clock className="h-4 w-4 text-orange-700" />
+            <span className="text-xs font-bold text-orange-900">
+              마감 D-{daysLeft === 0 ? 'day' : daysLeft} ⏳
             </span>
           </div>
         )}
 
-        <div className="p-4">
-          {/* 헤더: 유형 배지 + 지역 */}
-          <div className="flex items-start justify-between gap-2 mb-3">
-            <div className="flex flex-wrap gap-1.5">
-              <span
-                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${TYPE_COLORS[notice.type]}`}
-              >
-                {notice.type}
-              </span>
-              <span className="inline-flex items-center gap-0.5 text-xs text-muted-foreground">
-                <MapPin className="h-3 w-3" />
-                {notice.district}
-              </span>
-            </div>
-
-            {/* 조건 부합 여부 */}
+        <div className="p-5">
+          {/* 헤더: 조건 & 지역 */}
+          <div className="flex items-center justify-between mb-4">
+            {/* 조건 부합 여부 뱃지 */}
             {notice.is_eligible ? (
-              <div className="flex items-center gap-1 text-emerald-600 shrink-0">
+              <div className="flex items-center gap-1.5 text-[#00D09E] bg-[#00D09E]/10 px-2.5 py-1.5 rounded-lg border border-[#00D09E]/20">
                 <CheckCircle2 className="h-4 w-4" />
-                <span className="text-xs font-medium">지원 가능</span>
+                <span className="text-[12px] font-bold tracking-tight">지원 가능 🎯</span>
               </div>
             ) : (
-              <div className="flex items-center gap-1 text-rose-500 shrink-0">
+              <div className="flex items-center gap-1.5 text-slate-500 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200">
                 <XCircle className="h-4 w-4" />
-                <span className="text-xs font-medium">조건 확인</span>
+                <span className="text-[12px] font-bold tracking-tight">조건 확인 🥲</span>
               </div>
             )}
+
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-md">
+              <MapPin className="h-3 w-3" />
+              {notice.district}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 mb-2">
+            <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-extrabold ${TYPE_COLORS[notice.type]}`}>
+              {notice.type}
+            </span>
           </div>
 
           {/* 단지명 */}
-          <h2 className="font-bold text-base text-foreground mb-3 leading-snug">
+          <h2 className="font-extrabold text-[19px] text-slate-900 mb-5 leading-snug tracking-tight">
             {notice.title}
           </h2>
 
-          {/* ★ 예상 시세 차익 – 핵심 강조 영역 */}
-          <div className="mb-4 rounded-xl bg-gradient-to-r from-orange-50 to-rose-50 border border-orange-100 p-3">
-            <div className="flex items-center gap-1.5 mb-1">
-              <TrendingUp className="h-3.5 w-3.5 text-orange-500" />
-              <span className="text-xs font-medium text-orange-600">10년 뒤 예상 시세 차익</span>
+          {/* ★ 예상 시세 차익 벤토 박스 내부 모듈 */}
+          <div className="mb-4 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50/20 p-4 border border-orange-100/50 flex flex-col items-center justify-center text-center">
+            <div className="flex items-center gap-1 mb-1">
+              <TrendingUp className="h-4 w-4 text-orange-500" />
+              <span className="text-[12px] font-bold text-orange-600 tracking-tight">10년 뒤 예상 시세 차익</span>
             </div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-extrabold text-gradient-profit">
+            <div className="flex items-baseline gap-1 mt-1">
+              <span className="text-[32px] font-black text-gradient-profit tracking-tighter leading-none">
                 +{formatMoney(notice.expected_profit)}
               </span>
-              <span className="text-sm text-orange-500 font-semibold">원</span>
+              <span className="text-sm text-orange-600 font-extrabold pb-1">원</span>
             </div>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              현재 주변 시세 {formatMoney(notice.current_market_price)}원 기준
-            </p>
           </div>
 
-          {/* AI 3줄 요약 (1줄만 미리보기) */}
-          <div className="mb-3 rounded-lg bg-indigo-50 border border-indigo-100 px-3 py-2.5">
-            <div className="flex items-center gap-1.5 mb-1">
-              <span className="text-xs">🤖</span>
-              <span className="text-xs font-semibold text-indigo-600">AI 핵심 요약</span>
+          {/* AI 3줄 요약 미리보기 (벤토 박스 모듈) */}
+          <div className="mb-5 rounded-xl bg-slate-50/80 border border-slate-100 p-3.5">
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <span className="text-[13px] font-bold text-slate-700">💬 AI 핵심 요약</span>
             </div>
-            <p className="text-sm text-foreground/80 leading-relaxed line-clamp-1">
+            <p className="text-[13px] text-slate-600 font-medium leading-relaxed line-clamp-1">
               {notice.ai_summary[0]}
             </p>
-            <p className="text-xs text-indigo-400 mt-0.5">탭해서 전체 보기 →</p>
           </div>
 
-          {/* 보증금 / 월세 정보 */}
-          <div className="flex items-center gap-4 text-sm">
-            <div>
-              <span className="text-muted-foreground text-xs">보증금</span>
-              <p className="font-semibold text-foreground">
-                {notice.rent_fee === 0
-                  ? `${formatMoney(notice.deposit)}원`
-                  : `${formatMoney(notice.deposit)}원`}
+          {/* 하단 요약 스펙 */}
+          <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+            <div className="flex flex-col">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">보증금</span>
+              <p className="font-extrabold text-slate-800 text-[14px]">
+                {formatMoney(notice.deposit)}
               </p>
             </div>
             {notice.rent_fee > 0 && (
-              <div>
-                <span className="text-muted-foreground text-xs">월세</span>
-                <p className="font-semibold text-foreground">{notice.rent_fee}만원</p>
+              <div className="flex flex-col text-center">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">월세</span>
+                <p className="font-extrabold text-slate-800 text-[14px]">{notice.rent_fee}만</p>
               </div>
             )}
-            <div>
-              <span className="text-muted-foreground text-xs">전용면적</span>
-              <p className="font-semibold text-foreground">{notice.area_sqm}㎡</p>
-            </div>
-            <div className="ml-auto text-right">
-              <span className="text-muted-foreground text-xs">청약 마감</span>
-              <p className="text-xs font-medium text-foreground">{notice.subscription_close}</p>
+            <div className="flex flex-col text-right">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">면적</span>
+              <p className="font-extrabold text-slate-800 text-[14px]">{notice.area_sqm}㎡</p>
             </div>
           </div>
         </div>
