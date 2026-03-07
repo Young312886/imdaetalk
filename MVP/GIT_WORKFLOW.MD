@@ -1,4 +1,4 @@
-# 임대톡 Git 워크플로우 가이드
+# 집스텝 Git 워크플로우 가이드
 
 ## 브랜치 구조
 
@@ -10,50 +10,52 @@ fix/*       ← 버그 수정 브랜치
 chore/*     ← 문서/설정/리팩터링
 ```
 
-## 기능 개발 흐름 (표준)
+## 🚨 기능 완료 시 GitHub 업로드 원칙
+
+> **기능 단위 완료마다 반드시 커밋 & 푸시**
 
 ```bash
-# 1. develop 브랜치에서 새 기능 브랜치 생성
-git checkout develop
-git checkout -b feat/main-feed
+# 1. 작업 브랜치에서 변경사항 스테이징
+git add -A
 
-# 2. 개발 완료 후 커밋
-git add .
-git commit -m "feat: 메인 피드 카드 리스트 구현 (#phase4)"
+# 2. 커밋 (Conventional Commits 형식)
+#    PowerShell 특수문자 이슈 → 메시지 파일 사용 권장
+git commit -F .git_commit_msg.txt
 
-# 3. GitHub에 push
-git push -u origin feat/main-feed
+# 3. 현재 브랜치로 푸시
+git push origin <브랜치명>
 
-# 4. GitHub에서 develop으로 PR 생성 & Merge
-# 5. 배포 준비 완료 시 develop → main PR Merge
+# 4. 기능 완성 시 develop → PR → main
 ```
+
+> **PowerShell 커밋 팁**: 괄호`()`, 슬래시`/`, 한글 포함 메시지는  
+> `.git_commit_msg.txt` 파일에 작성 후 `git commit -F` 사용
 
 ## 커밋 메시지 컨벤션
 
 | 타입 | 용도 | 예시 |
 |------|------|------|
-| `feat` | 새 기능 | `feat: NoticeCard 컴포넌트 추가` |
-| `fix` | 버그 수정 | `fix: 로그인 리다이렉트 오류 수정` |
-| `chore` | 설정/문서 | `chore: .gitignore 업데이트` |
-| `style` | UI/CSS 변경 | `style: 차익 배지 컬러 수정` |
-| `refactor` | 리팩터링 | `refactor: Supabase 쿼리 헬퍼 분리` |
-| `test` | 테스트 | `test: 시뮬레이션 계산 로직 테스트` |
+| `feat` | 새 기능 | `feat: add login page with Kakao OAuth` |
+| `fix` | 버그 수정 | `fix: fix login redirect error` |
+| `chore` | 설정/문서 | `chore: update CHECKLIST.MD` |
+| `style` | UI/CSS 변경 | `style: update profit badge color` |
+| `refactor` | 리팩터링 | `refactor: extract supabase query helpers` |
 
 ## Phase별 브랜치 계획
 
-| Phase | 브랜치명 |
-|-------|----------|
-| Phase 0: 초기화 | `chore/project-setup` |
-| Phase 1: 레이아웃 | `feat/layout-components` |
-| Phase 2: Supabase | `feat/supabase-auth-db` |
-| Phase 3: 로그인 | `feat/auth-login-page` |
-| Phase 4: 메인 피드 | `feat/main-feed` |
-| Phase 5: 상세 페이지 | `feat/detail-page` |
-| Phase 6: 마이페이지 | `feat/mypage` |
-| Phase 7: 지도 뷰 | `feat/map-view` |
+| Phase | 브랜치명 | 상태 |
+|-------|----------|------|
+| Phase 0: 초기화 | `chore/project-setup` | ✅ 완료 |
+| Phase 1-5: UI 기초 + 리브랜딩 | `chore/project-setup` | ✅ 완료 |
+| Phase 2: Supabase DB & OAuth | `feat/supabase-auth-db` | 🔲 예정 |
+| Phase 3: 로그인 페이지 | `feat/auth-login-page` | 🔲 예정 |
+| Phase 6: 마이페이지 | `feat/mypage` | 🔲 예정 |
+| Phase 8: 데이터 파이프라인 | `feat/data-pipeline` | 🔲 예정 |
+| Phase 10: 배포 & SEO | `chore/deploy-quality` | 🔲 예정 |
 
 ## 현재 저장소 상태
 
 - **Remote:** https://github.com/Young312886/imdaetalk
 - **기본 브랜치:** `main` (Vercel 배포 대상)
-- **개발 브랜치:** `develop` (현재 작업 기준)
+- **현재 작업 브랜치:** `chore/project-setup`
+- **마지막 커밋:** `feat: rebrand to ZipStep and responsive web app layout`
