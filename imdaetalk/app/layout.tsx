@@ -3,22 +3,33 @@ import './globals.css'
 import { GNB } from '@/components/GNB'
 
 export const metadata: Metadata = {
-  title: '임대톡 | 내 자산이 되는 공공주택 청약 가이드',
+  title: '집스텝 | 1인가구를 위한 돈 되는 청약 계산기',
   description:
-    '어렵고 복잡한 공공임대 청약, 임대톡이 쉽게 풀어드려요. 10년 뒤 예상 시세 차익과 AI 3줄 요약으로 내 조건에 딱 맞는 공고를 찾아보세요.',
-  keywords: ['공공임대', '행복주택', '청약', '1인가구', '무주택', '시세차익', '임대톡'],
-  authors: [{ name: '임대톡 팀' }],
+    '당첨되면 얼마 벌까? 복잡한 공공임대/분양 공고를 AI가 3줄로 요약하고, 10년 뒤 예상 시세 차익까지 계산해 드려요. 내 가점으로 갈 수 있는 맞춤형 청약을 지금 확인하세요.',
+  keywords: [
+    '1인가구 청약',
+    '청약가점 계산기',
+    '공공임대',
+    '분양전환',
+    '행복주택',
+    '시세차익',
+    '청약알리미',
+    '무주택',
+    '내집마련',
+    '집스텝',
+  ],
+  authors: [{ name: '집스텝 팀' }],
   openGraph: {
-    title: '임대톡 | 내 자산이 되는 공공주택 청약 가이드',
-    description: '10년 뒤 예상 시세 차익으로 공공임대를 자산으로 보는 새로운 시각',
+    title: '당첨되면 얼마 벌까? 1인가구 맞춤 청약 가이드',
+    description: '어려운 공고문은 AI가 읽어드릴게요. 10년 뒤 내 자산이 될 집스텝을 찾아보세요.',
     type: 'website',
     locale: 'ko_KR',
-    siteName: '임대톡',
+    siteName: '집스텝 (ZipStep)',
   },
   twitter: {
     card: 'summary_large_image',
-    title: '임대톡 | 공공주택 청약 가이드',
-    description: 'AI 요약 + 시세 차익 시뮬레이션으로 쉬워지는 청약 정보',
+    title: '집스텝 | 1인가구 맞춤 공공주택 청약 가이드',
+    description: 'AI 공고 요약부터 10년 뒤 예상 시세차익 시뮬레이션까지.',
   },
   viewport: {
     width: 'device-width',
@@ -35,15 +46,13 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body>
-        {/* 모바일 앱처럼 보이는 컨테이너 (Cozy Fintech 배경톤) */}
+        {/* 전체 화면 배경 */}
         <div className="min-h-screen bg-[hsl(var(--surface))]">
-          {/* 모바일 중심 래퍼 (Bento Box 특성을 살리기 위해 미세한 틴트 배경) */}
-          <div className="relative mx-auto max-w-md min-h-screen bg-slate-50 shadow-xl overflow-hidden">
-            <GNB />
-            <main className="pb-24">
-              {children}
-            </main>
-          </div>
+          <GNB />
+          {/* 반응형 웹앱 컨테이너: 모바일~PC 전 구간 대응 */}
+          <main className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+            {children}
+          </main>
         </div>
       </body>
     </html>

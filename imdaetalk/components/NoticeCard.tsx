@@ -27,7 +27,7 @@ export function NoticeCard({ notice }: NoticeCardProps) {
   const isUrgent = daysLeft >= 0 && daysLeft <= 7
 
   return (
-    <Link href={`/detail/${notice.id}`} className="block px-4 mb-5" aria-label={`${notice.title} 상세 보기`}>
+    <Link href={`/detail/${notice.id}`} className="block" aria-label={`${notice.title} 상세 보기`}>
       <article className="bento-box card-hover overflow-hidden relative">
         {/* 긴급 마감 배너 */}
         {isUrgent && (

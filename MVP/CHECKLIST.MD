@@ -1,57 +1,51 @@
-# 임대톡(ImdaeTalk) MVP 개발 체크리스트
+# 집스텝(ZipStep) MVP 개발 체크리스트
 
-> 마지막 업데이트: 2026-03-06  
+> 마지막 업데이트: 2026-03-07  
 > 기반 문서: PRD.MD / IA.MD / TECH SPEC.MD
 
 ---
 
 ## Phase 0 – 프로젝트 초기화
 
-- [ ] Next.js 14 (App Router) 프로젝트 생성
+- [x] Next.js 14 (App Router) 프로젝트 생성
   ```bash
   npx create-next-app@latest imdaetalk \
     --typescript --tailwind --eslint --app \
     --src-dir=false --import-alias='@/*'
   ```
-- [ ] `.env.local` 파일 생성 및 환경 변수 정의
+- [x] `.env.local` 파일 생성 및 환경 변수 정의
   - `NEXT_PUBLIC_SUPABASE_URL`
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
   - `NEXT_PUBLIC_KAKAO_APP_KEY` (카카오 REST API 키)
   - `NEXT_PUBLIC_NAVER_CLIENT_ID`
-- [ ] 추가 패키지 설치
-  ```bash
-  npm install @supabase/ssr @supabase/supabase-js zustand lucide-react
-  ```
-- [ ] `shadcn/ui` 초기화 및 컴포넌트 추가
-  ```bash
-  npx shadcn-ui@latest init
-  npx shadcn-ui@latest add button card badge input form tabs avatar separator skeleton
-  ```
-- [ ] Google Fonts 설정 (`app/layout.tsx` – Noto Sans KR / Inter)
-- [ ] 글로벌 CSS 커스텀 토큰 정의 (`app/globals.css`)
-  - Primary: `--primary: #5B5EF4` (인디고 보라)
-  - Accent (차익 강조): `--profit: #FF5C35` (딥 오렌지)
-  - Surface: `--card: #FFFFFF`, `--bg: #F5F5F7`
+- [x] 추가 패키지 설치 (`@supabase/ssr`, `@supabase/supabase-js`, `lucide-react`)
+- [x] `shadcn/ui` 초기화 및 컴포넌트 추가
+- [x] Pretendard 폰트 설정 (`globals.css` CDN import)
+- [x] 글로벌 CSS 커스텀 토큰 정의 (`app/globals.css`)
+  - Primary (Growth Mint): `--primary: #00D09E` 
+  - Accent (Coin Yellow): `--profit: #FFD54F`
+  - Surface: `--card: #FFFFFF`, `--surface: hsl(210,20%,97%)`
+  - Bento Box 스타일 유틸리티 (`.bento-box`, `.card-hover`, `.glass`)
 
 ---
 
 ## Phase 1 – 공통 레이아웃 & 공유 컴포넌트
 
-- [ ] `app/layout.tsx` – 모바일 래퍼 (`max-w-md mx-auto`) + GNB 포함 루트 레이아웃
-- [ ] `components/GNB.tsx` – 로고(임대톡), 우측 로그인/마이페이지 아이콘 버튼
-- [ ] `components/FAB.tsx` – 우측 하단 지도 아이콘 플로팅 액션 버튼
+- [x] `app/layout.tsx` – 모바일 래퍼 + GNB 포함 루트 레이아웃 (→ 웹앱 반응형 전환 예정)
+- [x] `components/GNB.tsx` – 로고, 우측 알림/마이페이지 아이콘 버튼
+- [x] `components/FAB.tsx` – 우측 하단 지도 아이콘 플로팅 액션 버튼
 - [ ] `components/BottomBar.tsx` – 상세 페이지 하단 고정 바 (슬롯 props 방식)
 - [ ] `components/LoadingSkeleton.tsx` – 카드 스켈레톤 (shimmer 애니메이션)
-- [ ] `components/ui/` – shadcn 컴포넌트 래퍼 (필요시 커스텀 변형 추가)
+- [x] `components/ui/BentoBox.tsx` – 벤토 박스 공통 래퍼 컴포넌트
 
 ---
 
 ## Phase 2 – Supabase 연동 (Auth & DB)
 
 ### 2-1. 클라이언트 유틸리티
-- [ ] `utils/supabase/client.ts` – `createBrowserClient` (CSR용)
-- [ ] `utils/supabase/server.ts` – `createServerClient` (SSR / Route Handler용)
-- [ ] `middleware.ts` – 세션 갱신 미들웨어 (`updateSession`)
+- [x] `utils/supabase/client.ts` – `createBrowserClient` (CSR용)
+- [x] `utils/supabase/server.ts` – `createServerClient` (SSR / Route Handler용)
+- [x] `middleware.ts` – 세션 갱신 미들웨어 (`updateSession`)
 
 ### 2-2. OAuth 설정 (Supabase Dashboard)
 - [ ] 카카오 OAuth 앱 등록 → Supabase Auth Provider 연결
@@ -59,7 +53,7 @@
 - [ ] Redirect URL 등록: `https://<your-domain>/auth/callback`
 
 ### 2-3. Route Handler
-- [ ] `app/auth/callback/route.ts` – OAuth 콜백 처리 (code → session 교환)
+- [x] `app/auth/callback/route.ts` – OAuth 콜백 처리 (code → session 교환)
 
 ### 2-4. DB 스키마 (SQL Migration)
 - [ ] `profiles` 테이블
@@ -117,67 +111,56 @@
 ## Phase 4 – 메인 피드 (`/`)
 
 ### 4-1. 더미 데이터
-- [ ] `data/dummyNotices.ts` – 공고 5개 JSON 배열
-  - 필드: `id, title, region, ai_summary[3], deposit, rent_fee, expected_profit, is_eligible, area_sqm, published_at`
+- [x] `data/dummyNotices.ts` – 공고 5개 JSON 배열
+  - 필드: `id, title, region, district, type, ai_summary[3], deposit, rent_fee, expected_profit, is_eligible, area_sqm, current_market_price, conversion_price, subscription_open, subscription_close, winner_announce, contract_date, source_url, published_at`
   - 예시 공고: 마곡 행복주택, 수서 역세권 청년주택, 고덕 강일 공공임대 등
 
 ### 4-2. 카드 컴포넌트
-- [ ] `components/NoticeCard.tsx` 생성
-  - [ ] **예상 시세 차익 Badge**: 그라디언트 배경 + 굵은 폰트 (가장 눈에 띄게)
-  - [ ] AI 3줄 요약 미리보기 (1줄만 노출, 나머지 fade)
-  - [ ] 조건 부합 여부 Badge (`is_eligible`: ✅ 지원 가능 / ⚠️ 조건 확인 필요)
-  - [ ] 탭 / 누름 애니메이션 (`active:scale-95 transition`)
-  - [ ] 카드 우측 상단: 지역 텍스트 + 공고일
+- [x] `components/NoticeCard.tsx` 생성
+  - [x] **예상 시세 차익 모듈**: Coin Yellow 그라디언트 배경 + 32px 굵은 폰트
+  - [x] AI 3줄 요약 미리보기 (1줄만 노출, `line-clamp-1`)
+  - [x] 조건 부합 여부 Badge (`is_eligible`: ✅ 지원 가능 🎯 / ❌ 조건 확인 🥲)
+  - [x] 탭 / 누름 애니메이션 (`active:scale-[0.98]`)
+  - [x] 긴급 마감 배너 (D-7 이내 자동 노출)
+  - [x] 공고 유형별 컬러 뱃지 (행복주택/국민임대/공공분양 등)
 
 ### 4-3. 메인 페이지
-- [ ] `app/page.tsx` 생성
-  - [ ] 상단: "OO님, 오늘 맞춤 공고 N건이 도착했어요 🏠" 개인화 메시지
-  - [ ] 지역 필터 칩 + 정렬 드롭다운 (최신순 / 차익 높은 순)
-  - [ ] NoticeCard 리스트 세로 스크롤 렌더링
-  - [ ] 비로그인 상태: 전체 공고 노출 + 상단 로그인 유도 배너
-  - [ ] FAB 컴포넌트 배치 (지도 뷰 페이지로 라우팅)
-  - [ ] 로딩 시 스켈레톤 UI
+- [x] `app/page.tsx` 생성
+  - [x] 상단: 오늘의 맞춤 공고 + 지원 가능 건수 표시
+  - [x] 지역 필터 칩 + 정렬 버튼 (최신순 / 차익 높은 순)
+  - [x] NoticeCard 리스트 세로 스크롤 렌더링
+  - [x] 비로그인 상태: Growth Mint 그라디언트 로그인 유도 배너
+  - [x] FAB 컴포넌트 배치
+  - [ ] 로딩 시 스켈레톤 UI (미구현)
 
 ---
 
 ## Phase 5 – 상세 페이지 (`/detail/[id]`)
 
-- [ ] `app/detail/[id]/page.tsx` – 서버 컴포넌트 (generateStaticParams for SSG)
+- [x] `app/detail/[id]/page.tsx` – 서버 컴포넌트 (Supabase 세션 확인)
 
 ### 5-1. Hero 섹션
-- [ ] 큼지막한 타이포그래피: `"OO님, 10년 뒤 예상 시세 차익은 1억 5천만 원이에요 🚀"`
-  - [ ] 차익 금액: 그라디언트 텍스트 클리핑 (`bg-clip-text text-transparent`)
-  - [ ] 부제: "현재 주변 시세 기준 시뮬레이션 결과예요"
-  - [ ] 배경: 부드러운 그라디언트 카드
+- [x] 큼지막한 타이포그래피 + 차익 금액 그라디언트 텍스트 (`text-5xl font-black text-gradient-profit`)
+- [x] 부제: 현재 시세 대비 상승 여력 % 표시
 
-### 5-2. 시뮬레이션 카드 (TECH SPEC 3.2 공식 시각화)
-- [ ] 계산 근거 테이블 (4행)
-  | 항목 | 값 |
-  |------|-----|
-  | 현재 주변 시세 | OOO만 원 |
-  | 10년 뒤 예상 시세 | OOO만 원 |
-  | 예상 분양전환가 | OOO만 원 |
-  | **예상 차익** | **OOO만 원** |
+### 5-2. 시뮬레이션 카드 (자산 성장 시뮬레이터)
+- [x] 계산 근거 4행 테이블 벤토 박스 (현재 시세 → 10년 뒤 예상 → 분양전환가 → 순수익)
 
-### 5-3. AI 3줄 요약 섹션 (`🤖 AI 요약`)
-- [ ] 배경 카드에 넘버드 Badge (1, 2, 3) + 요약 텍스트
-- [ ] 핵심 키워드 하이라이트 (소득 기준, 나이, 지역)
+### 5-3. AI 3줄 요약 섹션 (`💡 AI 핵심 브리핑`)
+- [x] 배경 카드에 넘버드 Badge (1, 2, 3) + 요약 텍스트
 
-### 5-4. 내 조건 부합 여부 섹션 (`📋 조건 체크`)
-- [ ] 체크리스트 UI (5개 항목)
-  - 나이 조건, 무주택기간, 청약통장 납입 횟수, 월 소득 기준, 거주 지역
-  - ✅ 충족 / ❌ 미충족 아이콘 + 설명 텍스트
-- [ ] 비로그인: "로그인하면 내 조건을 자동으로 확인해 드려요" 유도 UI
+### 5-4. 내 조건 부합 여부 섹션 (`🎯 내 가점 체크`)
+- [x] 체크리스트 UI (5개 항목: 나이, 무주택, 청약통장, 소득, 지역)
+- [x] 로그인 상태: CheckCircle2 / AlertCircle 아이콘
+- [x] 비로그인: 자물쇠 + 로그인 유도 배너
 
-### 5-5. 청약 일정표 (`📅 청약 일정`)
-- [ ] 타임라인 UI (세로 선 + 원형 아이콘)
-  - 모집공고 → 서류접수 → 당첨발표 → 계약
-  - 오늘 기준 지난 단계: 회색, 현재 단계: Primary 컬러, 남은 단계: 연한 색
+### 5-5. 청약 일정표 (`📅 일정 타임라인`)
+- [x] 세로 타임라인 UI (완료/진행중/예정 상태별 컬러)
 
-### 5-6. 하단 BottomBar
-- [ ] '공고 원문 보기' 버튼 → `source_url` 외부 링크 오픈
-- [ ] '알림 구독하기' 버튼 → `subscriptions` 테이블 INSERT (로그인 필요)
-  - 비로그인 클릭 시 `/auth/login` 리다이렉트
+### 5-6. 하단 고정 액션바
+- [x] '공고 원문' 버튼 → `source_url` 외부 링크
+- [x] '알림 구독하기' 버튼 (→ Supabase 연동 미완성)
+  - [ ] 비로그인 클릭 시 `/auth/login` 리다이렉트 로직 미연결
 
 ---
 
@@ -248,8 +231,9 @@
 
 | 단계 | 포함 Phase | 상태 |
 |------|-----------|------|
-| **MVP Core** | Phase 0–5 | 🔲 미시작 |
-| **MVP Plus** | Phase 6 (지도) | 🔲 미시작 |
+| **MVP Core** | Phase 0–5 | 🟡 진행 중 (UI 완성, Auth/DB 미연결) |
+| **리브랜딩** | 집스텝 전환 + 웹앱 전환 | 🟡 진행 중 |
+| **MVP Plus** | Phase 6 마이페이지 | 🔲 미시작 |
 | **Growth** | Phase 7–9 (실데이터 + 알림) | 🔲 미시작 |
 | **Launch Ready** | Phase 10 (배포/품질) | 🔲 미시작 |
 
