@@ -85,23 +85,18 @@ export default function LoginPage() {
           )}
         </button>
 
-        {/* 네이버 */}
+        {/* 네이버 (준비 중) */}
         <button
           onClick={() => handleLogin('naver')}
-          disabled={loading !== null}
+          disabled={true} // TO-DO: 네이버 OAuth 연동 완료 후 활성화
           id="naver-login-btn"
-          className="relative flex w-full items-center justify-center gap-2.5 rounded-2xl py-4 text-[15px] font-bold text-white transition-all active:scale-[0.98] disabled:opacity-70 shadow-md"
-          style={{ backgroundColor: '#03C75A' }}
-          aria-label="네이버로 로그인"
+          className="relative flex w-full items-center justify-center gap-2.5 rounded-2xl py-4 text-[15px] font-bold text-slate-400 transition-all cursor-not-allowed shadow-none"
+          style={{ backgroundColor: '#F1F5F9' }} // Tailwind slate-100 색상
+          aria-label="네이버로 로그인 (준비 중)"
+          title="네이버 로그인은 준비 중입니다."
         >
-          {loading === 'naver' ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
-          ) : (
-            <>
-              <span className="text-base font-black leading-none">N</span>
-              네이버로 로그인
-            </>
-          )}
+          <span className="text-base font-black leading-none opacity-50">N</span>
+          네이버 로그인 (준비 중)
         </button>
 
       </div>

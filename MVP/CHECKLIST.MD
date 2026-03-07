@@ -99,12 +99,12 @@
 
 ## Phase 3 – 인증 페이지 (`/auth/login`)
 
-- [ ] `app/auth/login/page.tsx` 생성
-  - [ ] 서비스 로고 + 슬로건 ("어렵고 복잡한 청약, 임대톡이 쉽게 알려드려요")
-  - [ ] 카카오 로그인 버튼 (배경 #FEE500, 아이콘 포함)
-  - [ ] 네이버 로그인 버튼 (배경 #03C75A, 흰색 텍스트)
-  - [ ] `supabase.auth.signInWithOAuth({ provider: 'kakao' | 'naver' })` 연결
-  - [ ] 로그인 성공 후 `/` 또는 이전 페이지로 리다이렉트
+- [x] `app/auth/login/page.tsx` 생성
+  - [x] 집스텝 로고 (Z 이니셜) + 슬로건 ("돈 되는 청약을 쉽게 찾아드려요 💸")
+  - [x] 카카오 로그인 버튼 (배경 #FEE500, 아이콘 SVG)
+  - [x] 네이버 로그인 버튼 (배경 #03C75A, N 이니셜)
+  - [x] `supabase.auth.signInWithOAuth({ provider: 'kakao' | 'naver' })` 연결
+  - [x] 로그인 성공 후 `/` 또는 이전 페이지로 리다이렉트
 
 ---
 
@@ -166,14 +166,16 @@
 
 ## Phase 6 – 마이페이지 (`/mypage`)
 
-- [ ] `app/mypage/page.tsx` – 로그인 보호 (`redirect` to `/auth/login` if no session)
-- [ ] 1인 가구 가점 계산기 폼
-  - [ ] 필드: 나이, 무주택기간(년), 청약통장 납입 횟수, 월 소득(만 원), 거주 지역
-  - [ ] 저장 시 `profiles` 테이블 UPSERT
-  - [ ] 저장 완료 토스트: "OO님의 조건이 저장됐어요! 이제 맞춤 공고만 골라드릴게요 🎯"
-- [ ] 구독 중인 공고 리스트 (`subscriptions` JOIN `notices` 조회)
-- [ ] 글로벌 이메일 알림 ON/OFF 토글 (`profiles.alert_enabled` 업데이트)
-- [ ] 로그아웃 버튼 (`supabase.auth.signOut()` → `/` 리다이렉트)
+- [x] `app/mypage/page.tsx` – 로그인 보호 (`redirect` to `/auth/login` if no session)
+- [x] `components/ProfileForm.tsx` – 1인 가구 가점 계산기 폼
+  - [x] 필드: 나이, 무주택기간, 청약통장 납입 횟수, 월 소득, 거주 지역
+  - [x] 저장 시 `profiles` 테이블 UPSERT
+  - [x] 저장 완료 토스트: "폼말 저장됨! 이제 맞춤 공고만 골라드릴게요 🎯"
+- [x] 구독 중인 공고 리스트 (`subscriptions` JOIN `notices` 조회)
+- [x] 이메일 알림 ON/OFF 토글 UI (alert_enabled 표시)
+- [x] `app/auth/signout/route.ts` 로그아웃 Route Handler
+- [x] `utils/supabase/db.ts` – DB 쿼리 헬퍼 전체 (getNotices, getNoticeById, upsertProfile, toggleSubscription)
+- [x] `supabase/schema.sql` – DB 스키마 + RLS + 인덱스 + 신규유저 트리거
 
 ---
 
