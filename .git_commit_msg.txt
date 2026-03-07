@@ -1,0 +1,6 @@
+feat: add LoadingSkeleton and AlertToggle client components
+
+- Add components/LoadingSkeleton.tsx for layout shift prevention
+- Connect app/loading.tsx to main feed and app/detail/[id]/loading.tsx to detail view
+- Implement components/AlertToggle.tsx with optimistic updates for toggle action
+- Connect AlertToggle to app/mypage/page.tsx

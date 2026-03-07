@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { getMyProfile, getMySubscriptions } from '@/utils/supabase/db'
 import { ProfileForm } from '@/components/ProfileForm'
+import { AlertToggle } from '@/components/AlertToggle'
 import { BentoBox } from '@/components/ui/BentoBox'
 import { LogOut, Bell, BellOff, TrendingUp, MapPin, ChevronRight } from 'lucide-react'
 
@@ -63,25 +64,7 @@ export default async function MyPage() {
         <h2 className="flex items-center gap-2 font-bold text-[16px] text-slate-900 mb-4">
           🔔 이메일 알림 설정
         </h2>
-        <div className="flex items-center justify-between bg-slate-50 rounded-xl px-4 py-3.5 border border-slate-100">
-          <div className="flex items-center gap-3">
-            {profile?.alert_enabled !== false ? (
-              <Bell className="h-5 w-5 text-[#00D09E]" />
-            ) : (
-              <BellOff className="h-5 w-5 text-slate-400" />
-            )}
-            <div>
-              <p className="text-[14px] font-bold text-slate-800">맞춤 공고 알림</p>
-              <p className="text-[12px] text-slate-400 font-medium">
-                {profile?.alert_enabled !== false ? '알림 수신 중' : '알림 꺼짐'}
-              </p>
-            </div>
-          </div>
-          {/* 토글은 클라이언트 컴포넌트화 예정 — 현재 정적 표시 */}
-          <div className={`relative inline-flex h-7 w-12 cursor-pointer items-center rounded-full transition-colors ${profile?.alert_enabled !== false ? 'bg-[#00D09E]' : 'bg-slate-200'}`}>
-            <span className={`inline-block h-5 w-5 rounded-full bg-white shadow-md transform transition-transform ${profile?.alert_enabled !== false ? 'translate-x-6' : 'translate-x-1'}`} />
-          </div>
-        </div>
+        <AlertToggle userId={user.id} initialEnabled={profile?.alert_enabled ?? true} />
       </BentoBox>
 
       {/* ── 구독 중인 공고 목록 */}
