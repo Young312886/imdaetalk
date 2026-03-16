@@ -1,42 +1,48 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { dummyNotices, formatMoney } from '@/data/dummyNotices'
+import { formatMoney } from '@/data/dummyNotices'
 import { createClient } from '@/utils/supabase/server'
+import { getNoticeById } from '@/utils/supabase/db'
 import { BentoBox } from '@/components/ui/BentoBox'
 import {
   TrendingUp, CheckCircle2, XCircle, Clock,
-  FileText, Bell, MapPin, Calculator, AlertCircle, Lock
+  FileText, MapPin, Calculator, AlertCircle, Lock
 } from 'lucide-react'
+import { SubscribeButton } from '@/components/SubscribeButton'
 
 interface PageProps {
   params: { id: string }
 }
 
-const CHECKLIST_ITEMS = [
-  { key: 'age', label: '나이 조건 (만 19~39세)', met: true, emoji: '👤' },
-  { key: 'noHouse', label: '무주택 세대 구성원', met: true, emoji: '🏠' },
-  { key: 'subscription', label: '청약통장 6개월 이상', met: false, emoji: '🏦' },
-  { key: 'income', label: '소득 기준 충족', met: true, emoji: '💰' },
-  { key: 'region', label: '해당 지역 거주', met: true, emoji: '📍' },
-]
-
 export default async function DetailPage({ params }: PageProps) {
-  const notice = dummyNotices.find(n => n.id === params.id)
+  const notice = await getNoticeById(params.id)
   if (!notice) notFound()
 
   const supabase = await createClient()
   const { data: { session } } = await supabase.auth.getSession()
   const isLoggedIn = !!session
 
-  const profitRate = Math.round(
-    ((notice.expected_profit) / notice.current_market_price) * 100
-  )
+  const profitRate = notice.current_market_price > 0 
+    ? Math.round((notice.expected_profit_10y / notice.current_market_price) * 100)
+    : 0
 
   const TIMELINE = [
     { label: '모집공고', date: notice.published_at, done: true },
-    { label: '청약 접수', date: `${notice.subscription_open}\n~ ${notice.subscription_close}`, done: false, active: true },
-    { label: '당첨 발표', date: notice.winner_announce, done: false },
-    { label: '계약', date: notice.contract_date, done: false },
+    { label: '청약 접수', date: `${notice.subscription_open || '미정'}\n~ ${notice.subscription_close || '미정'}`, done: false, active: true },
+    { label: '당첨 발표', date: notice.winner_announce || '추후 공지', done: false },
+    { label: '계약', date: notice.contract_date || '추후 공지', done: false },
+  ]
+
+  const ai_summary = notice.notice_ai_summary 
+    ? [notice.notice_ai_summary.summary_line1, notice.notice_ai_summary.summary_line2, notice.notice_ai_summary.summary_line3]
+    : ['AI가 요약을 준비 중이에요 ⏳', '', '']
+
+  const CHECKLIST_ITEMS = notice.notice_ai_summary?.eligibility_checklist || [
+    { key: 'age', label: '나이 조건 (만 19~39세)', met: true },
+    { key: 'noHouse', label: '무주택 세대 구성원', met: true },
+    { key: 'subscription', label: '청약통장 6개월 이상', met: true },
+    { key: 'income', label: '소득 기준 충족', met: true },
+    { key: 'region', label: '해당 지역 거주', met: true },
   ]
 
   return (
@@ -63,7 +69,7 @@ export default async function DetailPage({ params }: PageProps) {
 
             <div className="flex items-baseline gap-1 mt-2 mb-2 relative z-10">
               <span className="text-5xl font-black text-gradient-profit tracking-tighter leading-none">
-                +{formatMoney(notice.expected_profit)}
+                +{formatMoney(Math.floor(notice.expected_profit_10y / 10000))}
               </span>
               <span className="text-lg text-orange-500 font-extrabold pb-1">원</span>
             </div>
@@ -95,7 +101,7 @@ export default async function DetailPage({ params }: PageProps) {
               <span>💡</span> AI 핵심 브리핑
             </h3>
             <div className="space-y-3">
-              {notice.ai_summary.map((line, i) => (
+              {ai_summary.map((line, i) => line && (
                 <div key={i} className="flex gap-3">
                   <span className="shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[#00D09E]/15 text-[#00D09E] text-[12px] font-black">
                     {i + 1}
@@ -116,16 +122,15 @@ export default async function DetailPage({ params }: PageProps) {
               </h3>
               {isLoggedIn && (
                 <span className="text-[12px] font-bold text-[#00D09E] bg-[#00D09E]/10 px-2.5 py-1 rounded-full">
-                  4 / 5 충족
+                  충족 여부 확인됨
                 </span>
               )}
             </div>
 
             <div className="grid grid-cols-1 gap-2.5">
-              {CHECKLIST_ITEMS.map((item) => (
+              {CHECKLIST_ITEMS.map((item: any) => (
                 <div key={item.key} className="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-100">
                   <div className="flex items-center gap-2.5">
-                    <span className="text-base">{item.emoji}</span>
                     <span className="text-[14px] font-bold text-slate-700">{item.label}</span>
                   </div>
                   {isLoggedIn ? (
@@ -210,19 +215,19 @@ export default async function DetailPage({ params }: PageProps) {
               <div className="space-y-4 relative z-10">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <span className="text-[13px] font-bold text-slate-500">현재 주변 아파트 시세</span>
-                  <span className="text-[14px] font-extrabold text-slate-800">{formatMoney(notice.current_market_price)}원</span>
+                  <span className="text-[14px] font-extrabold text-slate-800">{formatMoney(Math.floor(notice.current_market_price / 10000))}원</span>
                 </div>
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <span className="text-[13px] font-bold text-[#00D09E]">10년 뒤 주변 시세 (예상)</span>
-                  <span className="text-[14px] font-extrabold text-[#00D09E]">{formatMoney(Math.round(notice.current_market_price * 1.63))}원</span>
+                  <span className="text-[14px] font-extrabold text-[#00D09E]">{formatMoney(Math.floor((notice.current_market_price * 1.63) / 10000))}원</span>
                 </div>
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <span className="text-[13px] font-bold text-slate-500">나의 분양 전환가 (할인)</span>
-                  <span className="text-[14px] font-extrabold text-slate-800">{formatMoney(notice.conversion_price)}원</span>
+                  <span className="text-[14px] font-extrabold text-slate-800">{formatMoney(Math.floor(notice.conversion_price / 10000))}원</span>
                 </div>
                 <div className="flex items-center justify-between pt-1">
                   <span className="text-[14px] font-black text-orange-600">순수익 (자산 증가)</span>
-                  <span className="text-[20px] font-black text-orange-600">+{formatMoney(notice.expected_profit)}원</span>
+                  <span className="text-[20px] font-black text-orange-600">+{formatMoney(Math.floor(notice.expected_profit_10y / 10000))}원</span>
                 </div>
               </div>
             </BentoBox>
@@ -238,10 +243,11 @@ export default async function DetailPage({ params }: PageProps) {
                 <FileText className="h-4 w-4" />
                 공고 원문
               </a>
-              <button className="flex-[1.5] flex items-center justify-center gap-1.5 rounded-2xl bg-[#00D09E] py-4 text-[15px] font-extrabold text-white shadow-lg shadow-[#00D09E]/30 active:scale-[0.98] transition-transform hover:bg-[#00b388]">
-                <Bell className="h-4 w-4" />
-                알림 구독하기
-              </button>
+              <SubscribeButton
+                noticeId={notice.id}
+                isLoggedIn={isLoggedIn}
+                variant="desktop"
+              />
             </div>
 
           </div>
@@ -260,19 +266,19 @@ export default async function DetailPage({ params }: PageProps) {
           <div className="space-y-4 relative z-10">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <span className="text-[13px] font-bold text-slate-500">현재 주변 아파트 시세</span>
-              <span className="text-[14px] font-extrabold text-slate-800">{formatMoney(notice.current_market_price)}원</span>
+              <span className="text-[14px] font-extrabold text-slate-800">{formatMoney(Math.floor(notice.current_market_price / 10000))}원</span>
             </div>
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <span className="text-[13px] font-bold text-[#00D09E]">10년 뒤 주변 시세 (예상)</span>
-              <span className="text-[14px] font-extrabold text-[#00D09E]">{formatMoney(Math.round(notice.current_market_price * 1.63))}원</span>
+              <span className="text-[14px] font-extrabold text-[#00D09E]">{formatMoney(Math.floor((notice.current_market_price * 1.63) / 10000))}원</span>
             </div>
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <span className="text-[13px] font-bold text-slate-500">나의 분양 전환가 (할인)</span>
-              <span className="text-[14px] font-extrabold text-slate-800">{formatMoney(notice.conversion_price)}원</span>
+              <span className="text-[14px] font-extrabold text-slate-800">{formatMoney(Math.floor(notice.conversion_price / 10000))}원</span>
             </div>
             <div className="flex items-center justify-between pt-1">
               <span className="text-[14px] font-black text-orange-600">순수익 (자산 증가)</span>
-              <span className="text-[20px] font-black text-orange-600">+{formatMoney(notice.expected_profit)}원</span>
+              <span className="text-[20px] font-black text-orange-600">+{formatMoney(Math.floor(notice.expected_profit_10y / 10000))}원</span>
             </div>
           </div>
         </BentoBox>
@@ -290,10 +296,11 @@ export default async function DetailPage({ params }: PageProps) {
             <FileText className="h-4 w-4" />
             공고 원문
           </a>
-          <button className="flex-[1.5] flex items-center justify-center gap-1.5 rounded-2xl bg-[#00D09E] py-4 text-[15px] font-extrabold text-white shadow-lg shadow-[#00D09E]/30 active:scale-[0.98] transition-transform">
-            <Bell className="h-4 w-4" />
-            알림 구독하기
-          </button>
+          <SubscribeButton
+            noticeId={notice.id}
+            isLoggedIn={isLoggedIn}
+            variant="mobile"
+          />
         </div>
       </div>
 

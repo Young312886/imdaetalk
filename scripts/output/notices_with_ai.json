@@ -1,0 +1,237 @@
+[
+  {
+    "id": "0fbe4b22-2a7e-4ec3-b277-073bf35df2d3",
+    "title": "마곡지구 9단지 행복주택",
+    "region": "서울",
+    "district": "강서구",
+    "type": "행복주택",
+    "deposit": 65000000,
+    "rent_fee": 230000,
+    "area_sqm": 36,
+    "source_url": "https://apply.lh.or.kr",
+    "published_at": "2026-03-06",
+    "subscription_open": "2026-03-20",
+    "subscription_close": "2026-03-24",
+    "ai_summary": [
+      "행복주택 — 보증금 1억에 내 집 마련 기회",
+      "1인가구 소득 기준 월 300만원 이하 지원 가능",
+      "분양전환 시 예상 시세 차익 최대 0억원"
+    ],
+    "eligibility_checklist": [
+      {
+        "key": "age",
+        "label": "나이 조건 (만 19~39세)",
+        "met": true
+      },
+      {
+        "key": "noHouse",
+        "label": "무주택 세대 구성원",
+        "met": true
+      },
+      {
+        "key": "subscription",
+        "label": "청약통장 6개월 이상",
+        "met": true
+      },
+      {
+        "key": "income",
+        "label": "소득 기준 충족",
+        "met": true
+      },
+      {
+        "key": "region",
+        "label": "해당 지역 거주",
+        "met": true
+      }
+    ],
+    "is_eligible": true
+  },
+  {
+    "id": "ee6bb325-dd35-4bf6-a0ab-e90326a9e583",
+    "title": "수서역세권 청년주택 A블록",
+    "region": "서울",
+    "district": "강남구",
+    "type": "청년안심주택",
+    "deposit": 58000000,
+    "rent_fee": 350000,
+    "area_sqm": 26,
+    "source_url": "https://housing.seoul.go.kr",
+    "published_at": "2026-03-05",
+    "subscription_open": "2026-03-25",
+    "subscription_close": "2026-03-27",
+    "ai_summary": [
+      "청년안심주택 — 보증금 1억에 내 집 마련 기회",
+      "1인가구 소득 기준 월 400만원 이하 지원 가능",
+      "분양전환 시 예상 시세 차익 최대 0억원"
+    ],
+    "eligibility_checklist": [
+      {
+        "key": "age",
+        "label": "나이 조건 (만 19~39세)",
+        "met": true
+      },
+      {
+        "key": "noHouse",
+        "label": "무주택 세대 구성원",
+        "met": true
+      },
+      {
+        "key": "subscription",
+        "label": "청약통장 6개월 이상",
+        "met": true
+      },
+      {
+        "key": "income",
+        "label": "소득 기준 충족",
+        "met": true
+      },
+      {
+        "key": "region",
+        "label": "해당 지역 거주",
+        "met": true
+      }
+    ],
+    "is_eligible": true
+  },
+  {
+    "id": "0e3f14de-acb4-443e-b364-cba6fb58b1f6",
+    "title": "고덕강일 공공분양 3블록",
+    "region": "서울",
+    "district": "강동구",
+    "type": "공공분양",
+    "deposit": 0,
+    "rent_fee": 0,
+    "area_sqm": 59,
+    "source_url": "https://apply.lh.or.kr",
+    "published_at": "2026-03-04",
+    "subscription_open": "2026-04-01",
+    "subscription_close": "2026-04-05",
+    "ai_summary": [
+      "공공분양 — 보증금 0억에 내 집 마련 기회",
+      "1인가구 소득 기준 월 700만원 이하 지원 가능",
+      "분양전환 시 예상 시세 차익 최대 0억원"
+    ],
+    "eligibility_checklist": [
+      {
+        "key": "age",
+        "label": "나이 조건 (만 19~39세)",
+        "met": true
+      },
+      {
+        "key": "noHouse",
+        "label": "무주택 세대 구성원",
+        "met": true
+      },
+      {
+        "key": "subscription",
+        "label": "청약통장 6개월 이상",
+        "met": true
+      },
+      {
+        "key": "income",
+        "label": "소득 기준 충족",
+        "met": true
+      },
+      {
+        "key": "region",
+        "label": "해당 지역 거주",
+        "met": true
+      }
+    ],
+    "is_eligible": true
+  },
+  {
+    "id": "ff67d0de-50e8-4265-b442-8bb0c80e8149",
+    "title": "은평뉴타운 국민임대 7단지",
+    "region": "서울",
+    "district": "은평구",
+    "type": "국민임대",
+    "deposit": 32000000,
+    "rent_fee": 180000,
+    "area_sqm": 46,
+    "source_url": "https://apply.lh.or.kr",
+    "published_at": "2026-03-03",
+    "subscription_open": "2026-03-18",
+    "subscription_close": "2026-03-21",
+    "ai_summary": [
+      "국민임대 — 보증금 0억에 내 집 마련 기회",
+      "1인가구 소득 기준 월 200만원 이하 지원 가능",
+      "분양전환 시 예상 시세 차익 최대 0억원"
+    ],
+    "eligibility_checklist": [
+      {
+        "key": "age",
+        "label": "나이 조건 (만 19~39세)",
+        "met": true
+      },
+      {
+        "key": "noHouse",
+        "label": "무주택 세대 구성원",
+        "met": true
+      },
+      {
+        "key": "subscription",
+        "label": "청약통장 6개월 이상",
+        "met": true
+      },
+      {
+        "key": "income",
+        "label": "소득 기준 충족",
+        "met": true
+      },
+      {
+        "key": "region",
+        "label": "해당 지역 거주",
+        "met": true
+      }
+    ],
+    "is_eligible": true
+  },
+  {
+    "id": "4c941776-ec4a-4874-8950-302fc2cbca15",
+    "title": "위례신도시 장기전세 SH 2차",
+    "region": "서울",
+    "district": "송파구",
+    "type": "장기전세",
+    "deposit": 280000000,
+    "rent_fee": 0,
+    "area_sqm": 49,
+    "source_url": "https://www.i-sh.co.kr",
+    "published_at": "2026-03-01",
+    "subscription_open": "2026-04-08",
+    "subscription_close": "2026-04-10",
+    "ai_summary": [
+      "장기전세 — 보증금 3억에 내 집 마련 기회",
+      "1인가구 소득 기준 월 400만원 이하 지원 가능",
+      "분양전환 시 예상 시세 차익 최대 0억원"
+    ],
+    "eligibility_checklist": [
+      {
+        "key": "age",
+        "label": "나이 조건 (만 19~39세)",
+        "met": true
+      },
+      {
+        "key": "noHouse",
+        "label": "무주택 세대 구성원",
+        "met": true
+      },
+      {
+        "key": "subscription",
+        "label": "청약통장 6개월 이상",
+        "met": true
+      },
+      {
+        "key": "income",
+        "label": "소득 기준 충족",
+        "met": true
+      },
+      {
+        "key": "region",
+        "label": "해당 지역 거주",
+        "met": true
+      }
+    ],
+    "is_eligible": true
+  }
+]

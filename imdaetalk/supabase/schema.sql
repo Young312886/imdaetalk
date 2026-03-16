@@ -36,7 +36,6 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
 
--- ─── 2. notices 테이블 ────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS public.notices (
   id                   uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   title                text NOT NULL,
@@ -55,6 +54,8 @@ CREATE TABLE IF NOT EXISTS public.notices (
   subscription_close   date,
   winner_announce      date,
   contract_date        date,
+  lat                  numeric,
+  lng                  numeric,
   created_at           timestamptz NOT NULL DEFAULT now()
 );
 

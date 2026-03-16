@@ -1,10 +1,12 @@
 import { NoticeCard } from '@/components/NoticeCard'
 import { FAB } from '@/components/FAB'
-import { dummyNotices } from '@/data/dummyNotices'
+import { getNotices } from '@/utils/supabase/db'
 import { Sparkles, Calculator } from 'lucide-react'
 
-export default function HomePage() {
-  const eligibleCount = dummyNotices.filter(n => n.is_eligible).length
+export default async function HomePage() {
+  const notices = await getNotices(20).catch(() => [])
+  // is_eligible 로직은 나중에 프로필 매칭 시 추가 구현
+  const eligibleCount = 0
 
   return (
     <div className="relative pb-6 pt-6">
@@ -78,9 +80,14 @@ export default function HomePage() {
       {/* 🏘️ 공고 카드 리스트 — 반응형 그리드 */}
       {/* 모바일: 1컬럼 / 태블릿(md): 2컬럼 / PC(xl): 3컬럼 */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-        {dummyNotices.map((notice) => (
-          <NoticeCard key={notice.id} notice={notice} />
+        {notices.map((notice) => (
+          <NoticeCard key={notice.id} notice={notice as any} />
         ))}
+        {notices.length === 0 && (
+          <div className="col-span-full py-10 text-center text-slate-500 font-medium">
+            현재 데이터베이스에 등록된 공고가 없습니다. 크롤러를 실행해주세요!
+          </div>
+        )}
       </div>
 
       {/* 🗺️ 지도 뷰 FAB */}

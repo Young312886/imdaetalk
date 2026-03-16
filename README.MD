@@ -34,15 +34,15 @@
 
 ```
 ✅ Phase 0  프로젝트 초기화 (Next.js, Supabase, shadcn/ui)
-✅ Phase 1  공통 레이아웃 & GNB/FAB/BentoBox 컴포넌트
-✅ Phase 2  Supabase 클라이언트 유틸리티 & Auth 콜백 라우터
+✅ Phase 1  공통 레이아웃 & GNB/FAB/BentoBox/LoadingSkeleton 컴포넌트
+✅ Phase 2  Supabase 클라이언트 유틸리티 & Auth 콜백 / DB 스키마
+✅ Phase 3  로그인 페이지 (카카오 OAuth UI, 네이버 준비 중)
 ✅ Phase 4  메인 피드 (더미 데이터 + NoticeCard + 반응형 그리드)
-✅ Phase 5  상세 페이지 (Hero + AI 요약 + 가점 체크 + 타임라인 + 시뮬레이터)
-🟡 Phase 2  Supabase DB 스키마 & OAuth 연동 (진행 예정)
-🟡 Phase 3  로그인 페이지 (카카오/네이버 OAuth UI)
-🔲 Phase 6  마이페이지 (1인 가구 가점 계산기)
-🔲 Phase 8  데이터 파이프라인 (LH/SH 크롤러 + AI 요약 스크립트)
-🔲 Phase 10 배포 & 품질 (SEO, Lighthouse, CI/CD)
+✅ Phase 5  상세 페이지 (Hero + 시뮬레이터 + AI 요약 + 가점 체크 + 구독 버튼)
+✅ Phase 6  마이페이지 (가점 프로필 + 구독 목록 + 알림 설정)
+✅ Phase 8  데이터 파이프라인 (LH/SH 수집 + AI 요약 + 차익 계산 + DB 저장)
+🟡 Phase 2  Supabase OAuth 연동 (카카오 설정 필요, 네이버 준비 중)
+🔲 Phase 10 배포 & 품질 (Vercel 배포, Lighthouse, E2E 검증)
 ```
 
 ---

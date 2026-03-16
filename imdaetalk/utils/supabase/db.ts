@@ -20,6 +20,8 @@ export type Notice = {
   subscription_close: string
   winner_announce: string
   contract_date: string
+  lat?: number
+  lng?: number
 }
 
 export type NoticeWithSummary = Notice & {
