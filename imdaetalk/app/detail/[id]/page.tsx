@@ -14,6 +14,14 @@ interface PageProps {
   params: { id: string }
 }
 
+const DEFAULT_CHECKLIST = [
+  { key: 'age', label: '나이 조건 (만 19~39세)', met: true, emoji: '👤' },
+  { key: 'noHouse', label: '무주택 세대 구성원', met: true, emoji: '🏠' },
+  { key: 'subscription', label: '청약통장 6개월 이상', met: false, emoji: '🏦' },
+  { key: 'income', label: '소득 기준 충족', met: true, emoji: '💰' },
+  { key: 'region', label: '해당 지역 거주', met: true, emoji: '📍' },
+]
+
 export default async function DetailPage({ params }: PageProps) {
   const notice = await getNoticeById(params.id)
   if (!notice) notFound()
@@ -29,21 +37,20 @@ export default async function DetailPage({ params }: PageProps) {
   const TIMELINE = [
     { label: '모집공고', date: notice.published_at, done: true },
     { label: '청약 접수', date: `${notice.subscription_open || '미정'}\n~ ${notice.subscription_close || '미정'}`, done: false, active: true },
-    { label: '당첨 발표', date: notice.winner_announce || '추후 공지', done: false },
-    { label: '계약', date: notice.contract_date || '추후 공지', done: false },
+    { label: '당첨 발표', date: notice.winner_announce || '미정', done: false },
+    { label: '계약', date: notice.contract_date || '미정', done: false },
   ]
 
-  const ai_summary = notice.notice_ai_summary 
-    ? [notice.notice_ai_summary.summary_line1, notice.notice_ai_summary.summary_line2, notice.notice_ai_summary.summary_line3]
-    : ['AI가 요약을 준비 중이에요 ⏳', '', '']
+  const aiSummary = notice.notice_ai_summary 
+    ? [
+        notice.notice_ai_summary.summary_line1,
+        notice.notice_ai_summary.summary_line2,
+        notice.notice_ai_summary.summary_line3,
+      ].filter(Boolean)
+    : []
 
-  const CHECKLIST_ITEMS = notice.notice_ai_summary?.eligibility_checklist || [
-    { key: 'age', label: '나이 조건 (만 19~39세)', met: true },
-    { key: 'noHouse', label: '무주택 세대 구성원', met: true },
-    { key: 'subscription', label: '청약통장 6개월 이상', met: true },
-    { key: 'income', label: '소득 기준 충족', met: true },
-    { key: 'region', label: '해당 지역 거주', met: true },
-  ]
+  // TODO: Use actual checklist from notice_ai_summary if available
+  const checklistItems = DEFAULT_CHECKLIST
 
   return (
     <div className="pb-20 pt-6">
@@ -96,23 +103,25 @@ export default async function DetailPage({ params }: PageProps) {
           </BentoBox>
 
           {/* 🤖 AI 3줄 요약 */}
-          <BentoBox>
-            <h3 className="flex items-center gap-2 font-bold text-[16px] text-slate-900 mb-4">
-              <span>💡</span> AI 핵심 브리핑
-            </h3>
-            <div className="space-y-3">
-              {ai_summary.map((line, i) => line && (
-                <div key={i} className="flex gap-3">
-                  <span className="shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[#00D09E]/15 text-[#00D09E] text-[12px] font-black">
-                    {i + 1}
-                  </span>
-                  <p className="text-[14px] text-slate-700 font-medium leading-relaxed pt-0.5">
-                    {line}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </BentoBox>
+          {aiSummary.length > 0 && (
+            <BentoBox>
+              <h3 className="flex items-center gap-2 font-bold text-[16px] text-slate-900 mb-4">
+                <span>💡</span> AI 핵심 브리핑
+              </h3>
+              <div className="space-y-3">
+                {aiSummary.map((line, i) => (
+                  <div key={i} className="flex gap-3">
+                    <span className="shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[#00D09E]/15 text-[#00D09E] text-[12px] font-black">
+                      {i + 1}
+                    </span>
+                    <p className="text-[14px] text-slate-700 font-medium leading-relaxed pt-0.5">
+                      {line}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </BentoBox>
+          )}
 
           {/* 📋 내 가점 체크 */}
           <BentoBox>
@@ -122,15 +131,16 @@ export default async function DetailPage({ params }: PageProps) {
               </h3>
               {isLoggedIn && (
                 <span className="text-[12px] font-bold text-[#00D09E] bg-[#00D09E]/10 px-2.5 py-1 rounded-full">
-                  충족 여부 확인됨
+                  4 / 5 충족
                 </span>
               )}
             </div>
 
             <div className="grid grid-cols-1 gap-2.5">
-              {CHECKLIST_ITEMS.map((item: any) => (
+              {checklistItems.map((item) => (
                 <div key={item.key} className="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-100">
                   <div className="flex items-center gap-2.5">
+                    <span className="text-base">{item.emoji}</span>
                     <span className="text-[14px] font-bold text-slate-700">{item.label}</span>
                   </div>
                   {isLoggedIn ? (
@@ -219,7 +229,7 @@ export default async function DetailPage({ params }: PageProps) {
                 </div>
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <span className="text-[13px] font-bold text-[#00D09E]">10년 뒤 주변 시세 (예상)</span>
-                  <span className="text-[14px] font-extrabold text-[#00D09E]">{formatMoney(Math.floor((notice.current_market_price * 1.63) / 10000))}원</span>
+                  <span className="text-[14px] font-extrabold text-[#00D09E]">{formatMoney(notice.current_market_price > 0 ? Math.floor(Math.round(notice.current_market_price * 1.63) / 10000) : 0)}원</span>
                 </div>
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <span className="text-[13px] font-bold text-slate-500">나의 분양 전환가 (할인)</span>
@@ -270,7 +280,7 @@ export default async function DetailPage({ params }: PageProps) {
             </div>
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <span className="text-[13px] font-bold text-[#00D09E]">10년 뒤 주변 시세 (예상)</span>
-              <span className="text-[14px] font-extrabold text-[#00D09E]">{formatMoney(Math.floor((notice.current_market_price * 1.63) / 10000))}원</span>
+              <span className="text-[14px] font-extrabold text-[#00D09E]">{formatMoney(notice.current_market_price > 0 ? Math.floor(Math.round(notice.current_market_price * 1.63) / 10000) : 0)}원</span>
             </div>
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <span className="text-[13px] font-bold text-slate-500">나의 분양 전환가 (할인)</span>

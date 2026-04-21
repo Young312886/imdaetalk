@@ -49,7 +49,9 @@
     "expected_profit_10y": 393378053,
     "conversion_price": 730559239,
     "future_market_price": 1123937292,
-    "profit_rate_pct": 57
+    "profit_rate_pct": 57,
+    "lat": 37.5665,
+    "lng": 126.978
   },
   {
     "id": "0fbe4b22-2a7e-4ec3-b277-073bf35df2d3",
@@ -101,7 +103,9 @@
     "expected_profit_10y": 263880930,
     "conversion_price": 615722168,
     "future_market_price": 879603098,
-    "profit_rate_pct": 49
+    "profit_rate_pct": 49,
+    "lat": 37.5665,
+    "lng": 126.978
   },
   {
     "id": "4c941776-ec4a-4874-8950-302fc2cbca15",
@@ -153,7 +157,9 @@
     "expected_profit_10y": 239447510,
     "conversion_price": 957790040,
     "future_market_price": 1197237550,
-    "profit_rate_pct": 33
+    "profit_rate_pct": 33,
+    "lat": 37.5665,
+    "lng": 126.978
   },
   {
     "id": "0e3f14de-acb4-443e-b364-cba6fb58b1f6",
@@ -205,7 +211,9 @@
     "expected_profit_10y": 216235762,
     "conversion_price": 1225335982,
     "future_market_price": 1441571744,
-    "profit_rate_pct": 24
+    "profit_rate_pct": 24,
+    "lat": 37.5665,
+    "lng": 126.978
   },
   {
     "id": "ee6bb325-dd35-4bf6-a0ab-e90326a9e583",
@@ -257,6 +265,8 @@
     "expected_profit_10y": 190580672,
     "conversion_price": 444688232,
     "future_market_price": 635268904,
-    "profit_rate_pct": 49
+    "profit_rate_pct": 49,
+    "lat": 37.5665,
+    "lng": 126.978
   }
 ]

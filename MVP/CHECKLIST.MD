@@ -163,6 +163,9 @@
 - [x] (A) 파이썬 수집 스크립트 작성 (`scripts/fetch_lh.py`)
   - [x] LH OpenAPI 연동 (OpenAPI 키 및 VWorld 지오코딩 연동)
   - [x] SH OpenAPI 연동 (서울 열린데이터광장)
+  - [ ] **[추가 과제]** SH 공고의 누락된 핵심 데이터(보증금, 월세, 일정, 면적 등) 보완을 위한 파이프라인 확장
+    - [ ] `scripts/crawler/sh_crawler.py` 구현 (Playwright/BeautifulSoup 활용 서울주거포털 직접 크롤링)
+    - [ ] 주변 시세(호가/실거래) 확보를 위한 네이버 부동산 모바일 API 연동 스크립트 추가
 - [x] (B) AI 요약 & 자격 조건 추출 (`scripts/summarize_ai.py`)
   - [x] Ollama(llama3) 연동 및 규칙 기반 fallback 로직 구현
   - [x] 공고 본문 기준 1인가구 청약 자격(소득/자산/나이) 판별
@@ -229,6 +232,25 @@
   - [x] Brave Search API Key 등록 (웹 검색 적용)
   - [x] Notion API Secret 등록 (노션 DB 읽기/쓰기 적용)
   - [ ] Google Drive Credentials (설정 대기)
+
+---
+
+## Phase 12 – 운영 자동화 & 클라우드 관리 (Automation & Cloud)
+
+- [ ] **LLM 인프라 전환 (Cloud API)**: 
+  - [ ] `summarize_ai.py` 내 Ollama 의존성 제거
+  - [ ] Groq, DeepSeek 또는 OpenAI API 연동 (환경 변수 `LLM_API_KEY` 사용)
+- [ ] **데이터 파이프라인 자동화 (GitHub Actions)**:
+  - [ ] `.github/workflows/data-pipeline.yml` 생성
+  - [ ] 매일 정해진 시간(예: 오전 9시)에 수집-요약-저장 스크립트 자동 실행 (Cron Job)
+  - [ ] GitHub Secrets에 `SUPABASE_KEY`, `LLM_API_KEY`, `PUBLIC_DATA_API_KEY` 등록
+- [ ] **실시간 모니터링 및 알림**:
+  - [ ] Sentry 연동을 통한 Next.js 프론트엔드 에러 트래킹
+  - [ ] 파이프라인 실행 결과(성공/실패/수집건수) Slack 또는 Discord 웹훅 알림 연동
+- [ ] **프로덕션 환경 최적화**:
+  - [ ] 정식 도메인 연결 및 SSL 인증서 확인
+  - [ ] Supabase DB 백업 스케줄링 확인
+  - [ ] API 호출 제한(Rate Limit) 방지를 위한 캐싱 및 지연(delay) 로직 점검
 
 ---
 
